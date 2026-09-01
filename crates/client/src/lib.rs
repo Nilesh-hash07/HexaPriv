@@ -290,7 +290,16 @@ pub async fn run_client(
                         state.status_message = "[!] Usage: /connect <multiaddr>".to_string();
                         return false;
                     }
-                    if let Ok(addr) = parts[1].parse::<Multiaddr>() {
+                    let mut raw_addr = parts[1].to_string();
+                    if !raw_addr.starts_with('/') && raw_addr.contains("onion") {
+                        raw_addr = format!("/onion3/{}", raw_addr);
+                    }
+                    let sanitized = raw_addr.replace(".onion", "");
+                    if let Ok(addr) = sanitized.parse::<Multiaddr>() {
+                        let _ = p2p_cmd_tx.try_send(P2pCommand::DialPeer { addr: addr.clone() });
+                        let mut state = app_state_cmd.lock().await;
+                        state.status_message = format!("Dialing multiaddress {}", addr);
+                    } else if let Ok(addr) = parts[1].parse::<Multiaddr>() {
                         let _ = p2p_cmd_tx.try_send(P2pCommand::DialPeer { addr: addr.clone() });
                         let mut state = app_state_cmd.lock().await;
                         state.status_message = format!("Dialing multiaddress {}", addr);
@@ -368,3 +377,7 @@ fn get_timestamp_string() -> String {
     let secs = now % 60;
     format!("{:02}:{:02}:{:02}", hours, mins, secs)
 }
+
+
+
+
