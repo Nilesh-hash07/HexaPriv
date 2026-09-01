@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ HEXAPRIV ⚡
+# HEXAPRIV
 ### Enterprise-Grade Zero-Knowledge, Serverless P2P Terminal Messenger
 
 [![Rust](https://img.shields.io/badge/rust-1.75%2B-orange.svg?style=for-the-badge&logo=rust)](https://www.rust-lang.org/)
@@ -11,13 +11,13 @@
 
 *Powered by **Signal Protocol Double Ratchet E2EE**, **libp2p Swarm**, **Embedded Arti Tor Engine**, and a **Cyberpunk Red & Black Ratatui TUI**.*
 
-[Quick Start](#-quick-start--installation) • [Architecture](#%EF%B8%8F-architecture--security-model) • [CLI Reference](#-cli--command-reference) • [Tor Routing](TOR_COMMUNICATIONS_GUIDE.md) • [Threat Model](#-forensic-threat-model)
+[Quick Start](#quick-start--installation) • [Architecture](#architecture--security-model) • [CLI Reference](#cli--command-reference) • [Tor Routing](TOR_COMMUNICATIONS_GUIDE.md) • [Threat Model](#forensic-threat-model)
 
 ---
 
 </div>
 
-## 🌐 Overview
+## Overview
 
 **Hexapriv** is a next-generation, serverless, peer-to-peer terminal communication platform engineered for high-assurance privacy, resistance against surveillance, and complete metadata elimination. Built natively in **Rust**, Hexapriv combines military-grade end-to-end cryptography with embedded onion routing and direct peer discovery—all presented through a real-time red & black terminal dashboard.
 
@@ -31,20 +31,20 @@
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 | Feature | Enterprise Benefit & Technical Implementation |
 | :--- | :--- |
-| 🔒 **Signal Double Ratchet E2EE** | **Forward Secrecy & Post-Compromise Security**: Continuous X25519 Diffie-Hellman & HKDF-SHA256 ratcheting for every message payload. |
-| 🌐 **Serverless libp2p Swarm** | **Zero Central Metadata**: Kademlia DHT peer discovery, Noise authenticated transport, and direct node-to-node CBOR messaging. |
-| 🧅 **Embedded Arti Tor Engine** | **Native IP Concealment**: Integrated Rust Tor client (`arti-client`) bootstraps anonymized circuits without external binaries or proxies. |
-| 🚨 **Duress & Forensic Wipe** | **Anti-Coercion Protection**: Dual-passcode system (Code A vs. Code B). Triggering Code B or `/wipe` zeroes all identity keys and databases instantly. |
-| 🖥️ **Cyberpunk Ratatui TUI** | **High-Efficiency Operator UX**: Real-time terminal interface with dynamic network indicators, peer swarm sidebar, and QR verification modals. |
-| 🛡️ **Zeroize Memory Protection** | **RAM Scavenging Defense**: Secret keys, derived keys, and plaintext buffers implement `zeroize::ZeroizeOnDrop` to scrub RAM automatically. |
+| **Signal Double Ratchet E2EE** | **Forward Secrecy & Post-Compromise Security**: Continuous X25519 Diffie-Hellman & HKDF-SHA256 ratcheting for every message payload. |
+| **Serverless libp2p Swarm** | **Zero Central Metadata**: Kademlia DHT peer discovery, Noise authenticated transport, and direct node-to-node CBOR messaging. |
+| **Embedded Arti Tor Engine** | **Native IP Concealment**: Integrated Rust Tor client (`arti-client`) bootstraps anonymized circuits without external binaries or proxies. |
+| **Duress & Forensic Wipe** | **Anti-Coercion Protection**: Dual-passcode system (Code A vs. Code B). Triggering Code B or `/wipe` zeroes all identity keys and databases instantly. |
+| **Cyberpunk Ratatui TUI** | **High-Efficiency Operator UX**: Real-time terminal interface with dynamic network indicators, peer swarm sidebar, and QR verification modals. |
+| **Zeroize Memory Protection** | **RAM Scavenging Defense**: Secret keys, derived keys, and plaintext buffers implement `zeroize::ZeroizeOnDrop` to scrub RAM automatically. |
 
 ---
 
-## 🏗️ Architecture & Security Model
+## Architecture & Security Model
 
 ```mermaid
 graph TD
@@ -75,7 +75,7 @@ graph TD
 
 ---
 
-## 🚀 Quick Start & Installation
+## Quick Start & Installation
 
 ### Prerequisites
 - **Linux / macOS / BSD** operating system
@@ -107,7 +107,7 @@ cargo test --workspace
 
 ---
 
-## 💻 CLI & Command Reference
+## CLI & Command Reference
 
 ### Execution Commands
 
@@ -136,7 +136,7 @@ hexapriv wipe
 
 ---
 
-## 🎮 Interactive Dashboard Manual
+## Interactive Dashboard Manual
 
 Inside the active Hexapriv terminal interface:
 
@@ -153,7 +153,7 @@ Inside the active Hexapriv terminal interface:
 
 ---
 
-## 🔒 Forensic Threat Model
+## Forensic Threat Model
 
 ### 1. Anti-Coercion Duress System
 During initialization, Hexapriv prompts for two separate access credentials:
@@ -170,7 +170,7 @@ For comprehensive details on onion circuit setup and hidden service routing, ref
 
 ---
 
-## 🤝 Contributing & Security Disclosures
+## Contributing & Security Disclosures
 
 Contributions, security audits, and pull requests are welcome!
 
@@ -184,12 +184,12 @@ Contributions, security audits, and pull requests are welcome!
 
 ---
 
-## 📜 License
+## License
 
 Distributed under the **MIT License**. See `LICENSE` for more information.
 
 <div align="center">
 
-**[⭐ Star HexaPriv on GitHub](https://github.com/Nilesh-hash07/HexaPriv)** — Built for Privacy, Freedom, and Security.
+**[Star HexaPriv on GitHub](https://github.com/Nilesh-hash07/HexaPriv)** — Built for Privacy, Freedom, and Security.
 
 </div>
