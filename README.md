@@ -85,7 +85,8 @@ graph TD
 ### Automated One-Line Installation
 
 ```bash
-cd "/home/johnny/Documents/Projects/Privacy Text"
+git clone https://github.com/Nilesh-hash07/HexaPriv.git
+cd HexaPriv
 ./install.sh
 ```
 
