@@ -1,158 +1,195 @@
-# HEXAPRIV // PRIVACY TEXT
+<div align="center">
 
-> **Zero-Knowledge, Serverless P2P Terminal Messenger**  
-> Powered by **Signal Protocol Double Ratchet E2EE**, **libp2p Swarm**, **Embedded Arti Tor Engine**, and a **Cyberpunk Red & Black Ratatui TUI**.
+# ⚡ HEXAPRIV ⚡
+### Enterprise-Grade Zero-Knowledge, Serverless P2P Terminal Messenger
+
+[![Rust](https://img.shields.io/badge/rust-1.75%2B-orange.svg?style=for-the-badge&logo=rust)](https://www.rust-lang.org/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Tor Powered](https://img.shields.io/badge/Tor-Arti%20Embedded-purple.svg?style=for-the-badge&logo=tor-project)](https://gitlab.torproject.org/tpo/core/arti)
+[![Cryptography](https://img.shields.io/badge/Crypto-Signal%20Double%20Ratchet-red.svg?style=for-the-badge&logo=signal)](https://signal.org/docs/specifications/doubleratchet/)
+[![Security](https://img.shields.io/badge/Security-Zero%20Knowledge-brightgreen.svg?style=for-the-badge)](TOR_COMMUNICATIONS_GUIDE.md)
+
+*Powered by **Signal Protocol Double Ratchet E2EE**, **libp2p Swarm**, **Embedded Arti Tor Engine**, and a **Cyberpunk Red & Black Ratatui TUI**.*
+
+[Quick Start](#-quick-start--installation) • [Architecture](#%EF%B8%8F-architecture--security-model) • [CLI Reference](#-cli--command-reference) • [Tor Routing](TOR_COMMUNICATIONS_GUIDE.md) • [Threat Model](#-forensic-threat-model)
 
 ---
 
-## Technical Highlights
+</div>
 
-- **Signal Protocol Double Ratchet E2EE**: Every message exchange executes an X25519 Diffie-Hellman ratchet and HKDF-SHA256 chain ratchet, guaranteeing **Forward Secrecy** and **Post-Compromise Security**.
-- **Serverless libp2p Swarm**: Kademlia DHT peer discovery, Noise authenticated transport, and direct node-to-node CBOR messaging eliminate intermediate central servers.
-- **Embedded Arti Tor Network (`arti-client`)**: Native Rust embedded Tor client bootstraps anonymized circuits directly within Hexapriv—hiding IP addresses and bypassing NAT firewalls without external proxy binaries. Enables **Global Anonymous Remote Communications**. See [TOR_COMMUNICATIONS_GUIDE.md](file:///home/johnny/Documents/Projects/Privacy%20Text/TOR_COMMUNICATIONS_GUIDE.md) for full details.
-- **Red & Black Ratatui TUI**: Real-time terminal interface with dynamic network badges, peer sidebar, scrollable ratchet feed, and command prompt.
-- **Duress System & Silent Forensic Wipe**: Dual passcode architecture (Code A vs. Code B). Entering Code B or triggering `/wipe` immediately overwrites local identity files with zeroes, renders decoy output, and exits.
+## 🌐 Overview
 
+**Hexapriv** is a next-generation, serverless, peer-to-peer terminal communication platform engineered for high-assurance privacy, resistance against surveillance, and complete metadata elimination. Built natively in **Rust**, Hexapriv combines military-grade end-to-end cryptography with embedded onion routing and direct peer discovery—all presented through a real-time red & black terminal dashboard.
+
+```text
+  █░█ █▀▀ █░█ █▀█ █▀█ █░█ █░█
+  █▀█ ██▄ ▀▄▀ █▀█ █▀▀ █░█ ▀▄▀
+  -------------------------------------------------------------
+  [E2EE: SIGNAL DOUBLE RATCHET]  [TRANSPORT: LIBP2P + TOR ARTI]
+  [FORENSIC: DURESS SILENT WIPE] [TUI: RED & BLACK RATATUI]
+```
 
 ---
 
-## 1. System Requirements & Quick Installation
+## ✨ Key Features
+
+| Feature | Enterprise Benefit & Technical Implementation |
+| :--- | :--- |
+| 🔒 **Signal Double Ratchet E2EE** | **Forward Secrecy & Post-Compromise Security**: Continuous X25519 Diffie-Hellman & HKDF-SHA256 ratcheting for every message payload. |
+| 🌐 **Serverless libp2p Swarm** | **Zero Central Metadata**: Kademlia DHT peer discovery, Noise authenticated transport, and direct node-to-node CBOR messaging. |
+| 🧅 **Embedded Arti Tor Engine** | **Native IP Concealment**: Integrated Rust Tor client (`arti-client`) bootstraps anonymized circuits without external binaries or proxies. |
+| 🚨 **Duress & Forensic Wipe** | **Anti-Coercion Protection**: Dual-passcode system (Code A vs. Code B). Triggering Code B or `/wipe` zeroes all identity keys and databases instantly. |
+| 🖥️ **Cyberpunk Ratatui TUI** | **High-Efficiency Operator UX**: Real-time terminal interface with dynamic network indicators, peer swarm sidebar, and QR verification modals. |
+| 🛡️ **Zeroize Memory Protection** | **RAM Scavenging Defense**: Secret keys, derived keys, and plaintext buffers implement `zeroize::ZeroizeOnDrop` to scrub RAM automatically. |
+
+---
+
+## 🏗️ Architecture & Security Model
+
+```mermaid
+graph TD
+    subgraph Client Node [Hexapriv Terminal Node]
+        TUI[Ratatui Cyber TUI Dashboard]
+        Crypto[Signal Double Ratchet Engine<br/>X25519 + HKDF + ChaCha20-Poly1305]
+        Storage[Encrypted SQLite Storage<br/>Argon2id + Zeroize RAM]
+    end
+
+    subgraph Transport Layer [Anonymous P2P Swarm]
+        P2P[libp2p Swarm / Kademlia DHT]
+        Tor[Embedded Arti Tor Network]
+        Relay[Blind Fallback Relay Server]
+    end
+
+    TUI --> Crypto
+    Crypto --> Storage
+    Crypto --> P2P
+    P2P --> Tor
+    P2P -. Optional Fallback .-> Relay
+```
+
+### Cryptographic Primitive Stack
+- **Key Exchange & Ratcheting**: X25519 Diffie-Hellman (Curve25519), HKDF-SHA256 Key Derivation.
+- **Symmetric Encryption**: ChaCha20-Poly1305 Authenticated Encryption with Associated Data (AEAD).
+- **Key Storage Encryption**: Argon2id password hashing + ChaCha20-Poly1305 encryption key wrapping.
+- **Transport Security**: Noise Protocol Framework (Noise_XX handshakes over Yamux multiplexing).
+
+---
+
+## 🚀 Quick Start & Installation
 
 ### Prerequisites
-- **Operating System**: Linux, macOS, or BSD
-- **Rust Toolchain**: `rustc` 1.75+ and `cargo` installed
-- **C Build Tools**: `gcc`, `make`, and standard C runtime headers
+- **Linux / macOS / BSD** operating system
+- **Rust Toolchain** 1.75+ (`rustc`, `cargo`)
+- Standard C compiler and development toolchain (`gcc`, `make`)
 
-### Automated Installation
-
-Clone or enter the project directory and run the installer:
+### Automated One-Line Installation
 
 ```bash
 cd "/home/johnny/Documents/Projects/Privacy Text"
 ./install.sh
 ```
 
-`install.sh` compiles the optimized release binary (`cargo build --release`) with bundled SQLite, installing `hexapriv` directly to `$HOME/.local/bin/hexapriv` and `$HOME/.cargo/bin/hexapriv`.
+`install.sh` builds the release binary with embedded SQLite, installing `hexapriv` directly into `$HOME/.local/bin/hexapriv` and `$HOME/.cargo/bin/hexapriv`.
 
-Verify installation:
+### Build from Source
 
 ```bash
-hexapriv version
-hexapriv help
+# Clone the repository
+git clone git@github.com:Nilesh-hash07/HexaPriv.git
+cd HexaPriv
+
+# Build optimized release binary
+cargo build --release --all-targets
+
+# Run test suite
+cargo test --workspace
 ```
 
 ---
 
-## 2. CLI Command & Execution Modes
+## 💻 CLI & Command Reference
 
-| Execution Command | Mode & Description |
-|---|---|
-| `hexapriv` | Launches pure P2P node on default port `4001` with Red & Black TUI dashboard. |
-| `hexapriv p2p [PORT]` | Starts P2P node on a specified TCP port (e.g. `hexapriv p2p 5001`). |
-| `hexapriv tor` | Starts P2P node with Tor network routing enabled via embedded Arti & SOCKS5. |
-| `hexapriv connect [RELAY_URL]` | Connects to a fallback blind relay server (e.g. `http://127.0.0.1:8080`). |
-| `hexapriv serve [PORT]` | Starts an optional zero-log blind relay server daemon (default port: `8080`). |
-| `hexapriv verify <FINGERPRINT>` | Performs out-of-band SHA-256 identity fingerprint verification via CLI. |
-| `hexapriv wipe` | Instantly triggers silent duress wipe from terminal command line. |
-| `hexapriv version` | Displays version and enabled cryptographic features. |
-| `hexapriv help` | Displays full CLI manual. |
+### Execution Commands
 
----
+```bash
+# Launch pure P2P node on default port (4001) with Red & Black TUI
+hexapriv
 
-## 3. Initial Setup & Authentication Flow
+# Start node on a custom TCP port
+hexapriv p2p 5001
 
-### First-Time Initialization
-When launching `hexapriv` for the first time:
+# Launch P2P node with embedded Arti Tor onion routing enabled
+hexapriv tor
 
-1. **Set Code A (Real Passcode)**: Unlocks your encrypted identity and opens normal messaging sessions.
-2. **Set Code B (Duress Silent Wipe Passcode)**: **WARNING**: Entering Code B at login silently and permanently overwrites all local keys, databases, and message histories with zeroes before terminating the session.
-3. **Key Generation**: Hexapriv automatically generates Ed25519 signing keys and X25519 Diffie-Hellman keypairs, storing them encrypted with Argon2id + ChaCha20-Poly1305 in `~/.secure-messenger/identity`.
+# Connect via blind fallback relay server
+hexapriv connect http://127.0.0.1:8080
 
-### Subsequent Logins
-Enter **Code A** to unlock the Red & Black TUI dashboard.
+# Launch zero-log blind relay server daemon (Port: 8080)
+hexapriv serve 8080
 
----
+# Verify out-of-band identity SHA-256 fingerprint
+hexapriv verify <FINGERPRINT>
 
-## 4. How to Connect Peers and Send Messages
-
-### Connecting to a Remote Node
-Nodes discover each other via Multiaddresses over libp2p or Kademlia DHT. To dial a peer directly:
-
-```text
-/connect /ip4/198.51.100.4/tcp/4001/p2p/12D3KooW...
+# Trigger instant duress forensic wipe from command line
+hexapriv wipe
 ```
 
-Upon connection:
-- The peer's `PeerId` appears in the **PEERS & SWARM** sidebar on the left with a glowing red indicator (`●`).
-- Your node's exact multiaddresses (Direct P2P, Tor SOCKS/Arti, Tor `.onion` Hidden Service, Relay Fallback, and Fingerprints) are listed in the **CONNECTION TYPES & ADDRESSES** panel on the right side of the dashboard.
-- The status bar updates to reflect connected peer counts.
-
-
-### Sending Signal Double Ratchet E2EE Messages
-To send an end-to-end encrypted message to a peer using their 64-character public key:
-
-```text
-/send <recipient_public_key_hex> <your message text here>
-```
-
-**Protocol Sequence on `/send`**:
-1. If no session exists, Hexapriv executes an initial Diffie-Hellman agreement using the recipient's public key.
-2. The message is encrypted using a unique per-message symmetric key ($MK$) derived from the symmetric ratchet.
-3. The encrypted payload and Double Ratchet header (containing current sequence number $N$) are transmitted over the libp2p P2P swarm.
-4. The message appears in your feed as `[YOU] [SEQ #0] your message text here`.
-5. The recipient's node receives the payload, executes the receiving ratchet, decrypts the message, and displays it in their feed.
-
 ---
 
-## 5. Interactive TUI Dashboard Commands
+## 🎮 Interactive Dashboard Manual
 
-Inside the active Red & Black terminal dashboard:
+Inside the active Hexapriv terminal interface:
 
-| Interactive Command | Description |
-|---|---|
-| `/send <pubkey_hex> <msg>` | Encrypts message via Signal Double Ratchet E2EE and dispatches over libp2p. |
-| `/connect <multiaddr>` | Dials target peer multiaddress (`/ip4/x.x.x.x/tcp/4001/p2p/12D3...`). |
-| `/delete <conv_id>` | Permanently destroys local Double Ratchet session keys and conversation history. |
-| `/verify <fingerprint>` | Performs out-of-band SHA-256 fingerprint comparison against local identity. |
-| `/wipe` | Triggers manual instant duress silent wipe of all data. |
-| `/help` | Displays quick interactive command reference overlay. |
-| `/exit` | Restores terminal state cleanly and exits session. |
+| Key / Command | Action |
+| :--- | :--- |
+| `/send <pubkey_hex> <msg>` | Encrypts payload via Signal Double Ratchet and transmits over libp2p swarm. |
+| `/connect <multiaddr>` | Dials target peer multiaddress (e.g. `/ip4/198.51.100.4/tcp/4001/p2p/12D3...`). |
+| `/delete <conv_id>` | Destroys local session ratchet state and conversation log permanently. |
+| `/verify <fingerprint>` | Performs out-of-band SHA-256 fingerprint comparison. |
+| `/wipe` | Instantly overwrites identity keys, databases, and local RAM state. |
 | `Ctrl + A` / `Esc` | Opens full un-clipped Network Connection Addresses modal window. |
-| `Ctrl + Q` / `Esc` | Toggles the out-of-band Verification QR Code modal window. |
+| `Ctrl + Q` / `Esc` | Displays the out-of-band Identity Verification QR Code overlay. |
 | `Ctrl + C` | Emergency exit application. |
 
+---
+
+## 🔒 Forensic Threat Model
+
+### 1. Anti-Coercion Duress System
+During initialization, Hexapriv prompts for two separate access credentials:
+- **Code A (Operational Key)**: Authenticates session and decrypts operational identity.
+- **Code B (Duress Silent Wipe Key)**: **Emergency trigger**. Entering Code B at login silently zero-fills identity keys, deletes session data, outputs a generic decoy response, and exits without throwing alerts.
+
+### 2. Zeroize Memory Management
+All sensitive variables—including master keys, ephemeral Diffie-Hellman secret scalars, and unencrypted message buffers—are wrapped with `zeroize::ZeroizeOnDrop`. Memory is scrubbed at the hardware/CPU level immediately upon scope departure.
+
+### 3. IP Metadata Concealment
+Network listeners filter out internal local area network IPs (`192.168.x.x`, `10.x.x.x`) during address announcements, preventing local topology exposure over Tor peer discovery.
+
+For comprehensive details on onion circuit setup and hidden service routing, refer to [TOR_COMMUNICATIONS_GUIDE.md](TOR_COMMUNICATIONS_GUIDE.md).
 
 ---
 
-## 6. Verification & Fingerprints
+## 🤝 Contributing & Security Disclosures
 
-To protect against Man-in-the-Middle (MitM) attacks:
+Contributions, security audits, and pull requests are welcome!
 
-1. Press `Ctrl + Q` inside the TUI dashboard to view your public key QR code and SHA-256 fingerprint.
-2. Share your fingerprint out-of-band (e.g. in person or via encrypted call).
-3. Your peer executes `/verify <your_fingerprint>`.
-4. If fingerprints match, the TUI displays `MATCH [IDENTICAL]` in neon red.
+1. Fork the Repository.
+2. Create a Feature Branch (`git checkout -b feature/cyber-improvement`).
+3. Commit changes (`git commit -m 'feat: Add quantum-safe key exchange extension'`).
+4. Push to branch (`git push origin feature/cyber-improvement`).
+5. Open a Pull Request.
+
+> **Security Advisory**: To report security vulnerabilities, please contact the maintainers directly or submit a GPG-encrypted advisory.
 
 ---
 
-## 7. Security Architecture & Threat Model
+## 📜 License
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        HEXAPRIV NODE ARCHITECTURE                      │
-├────────────────────────────────────────────────────────────────────────┤
-│  [ TUI Layer ]          Red & Black Ratatui Cyber Dashboard           │
-├────────────────────────────────────────────────────────────────────────┤
-│  [ Crypto Engine ]      Signal Double Ratchet (X25519 + HKDF + ChaCha) │
-├────────────────────────────────────────────────────────────────────────┤
-│  [ Transport Layer ]    libp2p Swarm (Kademlia DHT + Noise + Yamux)    │
-├────────────────────────────────────────────────────────────────────────┤
-│  [ Anonymity Layer ]    Embedded Arti Tor Client (IP Address Concealment)│
-├────────────────────────────────────────────────────────────────────────┤
-│  [ Forensic Storage ]   Argon2id Key Derivation + Zeroize RAM Buffers │
-└────────────────────────────────────────────────────────────────────────┘
-```
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
-1. **Zero Central Dependencies**: Direct node-to-node communication over libp2p swarms means no central server has access to metadata, IP addresses, or message routing tables.
-2. **Zeroize Memory Protection**: All secret keys, derived ratchet states, and plaintext message buffers implement `zeroize::ZeroizeOnDrop` to scrub memory when variables leave scope.
-3. **IP Leak Prevention**: Address announcements strip internal LAN IP addresses (`192.168.x.x`, `10.x.x.x`) to prevent local network exposure over Tor peer discovery.
+<div align="center">
+
+**[⭐ Star HexaPriv on GitHub](https://github.com/Nilesh-hash07/HexaPriv)** — Built for Privacy, Freedom, and Security.
+
+</div>
