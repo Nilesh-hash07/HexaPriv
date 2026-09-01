@@ -1,0 +1,42 @@
+[package]
+name = "privacy-client"
+version = "0.1.0"
+edition = "2021"
+description = "Terminal client for Privacy Text zero-knowledge messaging"
+
+[dependencies]
+privacy-common = { path = "../common" }
+crossterm = "0.27"
+ratatui = "0.26"
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1.35", features = ["full"] }
+rpassword = "7.3"
+qr2term = "0.3"
+dirs = "5.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+hex = "0.4"
+zeroize = "1.7"
+sha2 = "0.10"
+argon2 = "0.5"
+ed25519-dalek = { version = "2.1", features = ["serde"] }
+x25519-dalek = { version = "2.0", features = ["static_secrets"] }
+rand = "0.8"
+libp2p = { version = "0.53", features = ["tokio", "gossipsub", "kad", "noise", "yamux", "tcp", "quic", "dns", "request-response", "cbor", "json", "macros"] }
+
+tokio-socks = "0.5"
+futures = "0.3"
+hkdf = "0.12"
+arti-client = { version = "0.45", features = ["tokio", "rustls"] }
+tor-rtcompat = { version = "0.45", features = ["tokio", "rustls"] }
+rusqlite = { version = "0.36", features = ["bundled"] }
+sha3 = "0.10"
+
+
+
+
+
+
+
+[dev-dependencies]
+tempfile = "3.8"

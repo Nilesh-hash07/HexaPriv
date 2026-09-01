@@ -1,0 +1,15 @@
+[package]
+name = "hexapriv"
+version = "0.1.0"
+edition = "2021"
+description = "Hexapriv unified zero-knowledge terminal messenger CLI package"
+
+[[bin]]
+name = "hexapriv"
+path = "src/main.rs"
+
+[dependencies]
+privacy-common = { path = "../common" }
+privacy-client = { path = "../client" }
+privacy-relay = { path = "../relay" }
+tokio = { version = "1.35", features = ["full"] }

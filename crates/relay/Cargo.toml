@@ -1,0 +1,15 @@
+[package]
+name = "privacy-relay"
+version = "0.1.0"
+edition = "2021"
+description = "Zero-log blind relay server for Privacy Text"
+
+[dependencies]
+privacy-common = { path = "../common" }
+axum = "0.7"
+tokio = { version = "1.35", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tower-http = { version = "0.5", features = ["cors"] }
+ed25519-dalek = { version = "2.1", features = ["serde"] }
+hex = "0.4"
