@@ -39,7 +39,7 @@
 | **Serverless libp2p Swarm** | **Zero Central Metadata**: Kademlia DHT peer discovery, Noise authenticated transport, and direct node-to-node CBOR messaging. |
 | **Embedded Arti Tor Engine** | **Native IP Concealment**: Integrated Rust Tor client (`arti-client`) bootstraps anonymized circuits without external binaries or proxies. |
 | **Duress & Forensic Wipe** | **Anti-Coercion Protection**: Dual-passcode system (Code A vs. Code B). Triggering Code B or `/wipe` zeroes all identity keys and databases instantly. |
-| **Cyberpunk Ratatui TUI** | **High-Efficiency Operator UX**: Real-time terminal interface with dynamic network indicators, peer swarm sidebar, and QR verification modals. |
+| **Ratatui TUI** | **High-Efficiency Operator UX**: Real-time terminal interface with dynamic network indicators, peer swarm sidebar, and QR verification modals. |
 | **Zeroize Memory Protection** | **RAM Scavenging Defense**: Secret keys, derived keys, and plaintext buffers implement `zeroize::ZeroizeOnDrop` to scrub RAM automatically. |
 
 ---
